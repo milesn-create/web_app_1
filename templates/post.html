@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{{ post.title }}</h1>
+
+<p>
+    {{ post.author }}, {{ post.date.strftime("%d.%m.%Y") }}
+</p>
+
+<img src="{{ url_for('static', filename='images/' + post.image_id) }}" style="max-width:700px; margin-bottom:20px;">
+
+<p>
+    {{ post.text }}
+</p>
+
+<hr>
+
+<h3>Оставьте комментарий</h3>
+
+<form>
+    <textarea rows="4" style="width:100%" placeholder="Введите комментарий"></textarea>
+    <br><br>
+    <button type="submit">Отправить</button>
+</form>
+
+<hr>
+
+<h3>Комментарии</h3>
+
+{% for comment in post.comments %}
+
+<div style="display:flex; margin-bottom:25px;">
+
+    <!-- аватар -->
+    <div style="
+        width:50px;
+        height:50px;
+        background:#ddd;
+        border-radius:50%;
+        text-align:center;
+        line-height:50px;
+        margin-right:15px;
+        font-size:12px;
+        color:#888;
+    ">
+        50
+    </div>
+
+    <div>
+
+        <strong>{{ comment.author }}</strong>
+
+        <p>{{ comment.text }}</p>
+
+        {% if comment.replies %}
+
+        <div style="margin-top:10px; margin-left:60px;">
+
+            {% for reply in comment.replies %}
+
+            <div style="display:flex; margin-bottom:15px;">
+
+                <!-- аватар ответа -->
+                <div style="
+                    width:50px;
+                    height:50px;
+                    background:#ddd;
+                    border-radius:50%;
+                    text-align:center;
+                    line-height:50px;
+                    margin-right:10px;
+                    font-size:12px;
+                    color:#888;
+                ">
+                    50
+                </div>
+
+                <div>
+                    <strong>{{ reply.author }}</strong>
+                    <p>{{ reply.text }}</p>
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+{% endblock %}
